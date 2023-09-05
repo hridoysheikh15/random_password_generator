@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Genaretor</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #262A29;
+            color: #1AC6FF;
+            font-family: sans-serif;
+        }
+
+        .output-box,
+        .condition {
+            padding-block: calc(2px + 3vw);
+        }
+
+        .output-box input {
+            text-align: center;
+        }
+
+        .condition {
+            text-align: start;
+        }
+
+        .condition fieldset {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+        .btn-list{
+            display: flex;
+            justify-content: center;
+        }
+        .all-btn {
+            display: flex;
+            max-width: 300px;
+            justify-content: center;
+            flex-direction: column;
+        }
+        .all-btn button{
+            padding: 10px;
+            margin: 10px;
+            font-size: calc(1px + 1vw);
+        }
+        #line-brake{
+            display: none;
+        }
+        #result{
+            border: 1.5px solid #1AC6FF;
+            padding: 10px;
+        }
+        @media (max-width: 768px) {
+            #line-brake{
+                display: block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="output-box">
+        <p>Your result show here: <br id="line-brake"><span id="result"></span></p>
+    </div>
+
+    <div class="btn-list">
+        <div class="all-btn">
+            <button onclick="genarate()">Genarate Password</button>
+            <button onclick="cleanbox()">Clean</button>
+            <button onclick="copytext()">Copy Password</button>
+        </div>
+    </div>
+
+    <div class="condition">
+        <fieldset>
+            <legend>
+                Password Generate Condition
+            </legend>
+            <div>
+                <label for="number_lenth">Input Password Length:</label>
+                <input type="number" name="number_lenth" id="length" value="8">
+            </div>
+            <div>
+                <label for="uppercase">Check for uppercase:</label>
+                <input type="checkbox" name="uppercase" id="uppercase">
+            </div>
+            <div>
+                <label for="lowercase">Check for lowercase:</label>
+                <input type="checkbox" name="lowercase" id="lowercase">
+            </div>
+            <div>
+                <label for="number">Check for number:</label>
+                <input type="checkbox" id="number">
+            </div>
+            <div>
+                <label for="specialCharector">Check for Spatial Charector:</label>
+                <input type="checkbox" name="specialCharector" id="specialCharector">
+            </div>
+        </fieldset>
+    </div>
+
+    <script>
+        function genarate() {
+            result.innerHTML = "";
+            let length = document.getElementById("length").value;
+            let uppercase = document.getElementById("uppercase");
+            let lowercase = document.getElementById("lowercase");
+            let number = document.getElementById("number");
+            let s_char = document.getElementById("specialCharector");
+            let uppercase_array = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+            let lowercase_array = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+            let number_array = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+            let s_char_array = ["~", "!", "#", "$", "%", "&", "*", "(", ")", "+", "/", "-", "}"];
+            if (uppercase.checked == false && lowercase.checked == false && number.checked == false && s_char.checked == false) {
+                return alert("Please check a Password Type Box");
+            }
+
+            if(length > 26){
+                return alert("Your Length Too High. Please Input Length 26 Below");
+            }
+
+            if (length <= 0) {
+                return alert("Input Positive Or Valid length")
+            }
+
+            for (let i = 0; i < length; i++) {
+                let random_upper = ((Math.random(25)) * (25));
+                let lower = ((Math.random(25)) * (25));
+                let random_number = ((Math.random(9)) * (9));
+                let random_sChar = ((Math.random(13)) * (13));
+                let res1 = uppercase_array[parseInt(random_upper)];
+                let res2 = lowercase_array[parseInt(lower)];
+                let res3 = number_array[parseInt(random_number)];
+                let res4 = s_char_array[parseInt(random_sChar)];
+                let result = document.getElementById("result");
+                let arr = [];
+                if (uppercase.checked == true) {
+                    arr.push(res1);
+                }
+
+                if (lowercase.checked == true) {
+                    arr.push(res2);
+                }
+
+                if (number.checked == true) {
+                    arr.push(res3);
+                }
+
+                if (s_char.checked == true) {
+                    arr.push(res4);
+                }
+
+
+                result.innerHTML += arr[Math.floor((Math.random(arr.length)) * (arr.length))];
+            }
+        }
+
+        function cleanbox() {
+            var result = document.getElementById("result");
+            result.innerHTML = "";
+        }
+
+        function copytext() {
+            var result_text = document.getElementById("result").innerText;
+            navigator.clipboard.writeText(result_text);
+        }
+    </script>
+</body>
+
+</html>
